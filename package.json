@@ -1,6 +1,6 @@
 {
-  "name": "http-api-client",
-  "description": "Node HTTP client application designed for a specific API",
+  "name": "html-api-client-promise",
+  "description": "Node request-promise-native client for a specific API that responds with HTML.",
   "author": "Jonathan Pool",
   "license": "MIT",
   "private": false,
