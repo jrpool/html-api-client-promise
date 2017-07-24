@@ -150,7 +150,7 @@ const editFiles = (pathnames, editParams) => {
   =========
 */
 const callArgs = process.argv.slice(2);
-if (areValid (callArgs)) {
+if (areValid(callArgs)) {
   const editParams = getEditParams(callArgs.slice(2));
   if (editParams) {
     /**
@@ -160,7 +160,7 @@ if (areValid (callArgs)) {
     mkdirAndDo(
       callArgs[1],
       (err) => {
-        if(err) {
+        if (err) {
           console.log('[mkdirAndDo]' + err.message);
         }
         else {

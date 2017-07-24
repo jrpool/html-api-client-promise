@@ -19,7 +19,7 @@
     "mocha": ">=3.4.2"
   },
   "scripts": {
-    "lint": "eslint src/ doc/ test/ ./*.js; exit 0",
+    "lint": "eslint src/ dev/ doc/ test/ ./*.js; exit 0",
     "test": "mocha --compilers js:babel-register test/*.js"
   },
   "bugs": {
@@ -42,6 +42,13 @@
       "sourceType": "module"
     },
     "rules": {
+      "arrow-spacing": [
+        "error",
+        {
+          "before": true,
+          "after": true
+        }
+      ],
       "indent": [
         "error",
         2
@@ -71,6 +78,9 @@
       "no-var": [
         "error"
       ],
+      "no-whitespace-before-property": [
+        "error"
+      ],
       "prefer-const": [
         "warn"
       ],
@@ -81,6 +91,35 @@
       "semi": [
         "error",
         "always"
+      ],
+      "space-before-blocks": [
+        "error",
+        "always"
+      ],
+      "space-before-function-paren": [
+        "error",
+        "never"
+      ],
+      "space-in-parens": [
+        "error",
+        "never"
+      ],
+      "space-unary-ops": [
+        "error",
+        {
+          "words": true,
+          "nonwords": false
+        }
+      ],
+      "spaced-comment": [
+        "error",
+        "always",
+        {
+          "markers": [
+            "/",
+            "*"
+          ]
+        }
       ]
     }
   }

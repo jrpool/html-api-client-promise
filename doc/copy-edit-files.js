@@ -195,7 +195,7 @@ const editFiles = (pathnames, editParams) => {
 // Identify the calling arguments.
 const callArgs = process.argv.slice(2);
 // If they are superficially valid:
-if (areValid (callArgs)) {
+if (areValid(callArgs)) {
   // Identify the editing parameters.
   const editParams = getEditParams(callArgs.slice(2));
   // If they are valid:
@@ -208,7 +208,7 @@ if (areValid (callArgs)) {
       callArgs[1],
       (err) => {
         // If there was an error in the creation of the directory:
-        if(err) {
+        if (err) {
           // Report it.
           console.log('[mkdirAndDo]' + err.message);
         }
