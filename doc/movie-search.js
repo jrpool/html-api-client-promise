@@ -4,11 +4,8 @@
 */
 
 // Import required modules.
-const hgetModule = require('./src/hget');
+const rpn = require('request-promise-native');
 const cheerio = require('cheerio');
-
-// Identify its objects.
-const {chunks, hget, arg0IfValid} = hgetModule;
 
 // Initialize the query parameters.
 const requestParams = {
@@ -19,12 +16,26 @@ const requestParams = {
 };
 
 /**
+  Define a function to return the first argument or, if the argument count
+  is not 1, the argument is not a string, or the argument is a blank string,
+  undefined.
+*/
+const arg0IfValid = () => {
+  // Identify the command-line arguments.
+  const args = process.argv.slice(2);
+  // Return the first if it is the only argument and nonblank.
+  if (args.length === 1 && typeof args[0] === 'string' && args[0].length) {
+    return args[0];
+  }
+};
+
+/**
   Define a function to extract the list of titles, years, and types from the
   HTML response of IMDB.
 */
-const getList = () => {
+const getList = body => {
   // Create a cheerio object representing the page.
-  const $ = cheerio.load(chunks.join(''));
+  const $ = cheerio.load(body);
   // Identify a cheerio collection of cells containing title/year/type items.
   const listCells =
     $('a[name=tt]')
@@ -44,19 +55,40 @@ const getList = () => {
   return listTexts.join('\n');
 };
 
-/// Define a function to output a report of the matching motion pictures.
-const listReport = () => {console.log(getList());};
-
-/**
-  Perform a GET request to the URL specified on the command line, if valid,
-  and process its response.
+/*
+  Define a function to process any error, the status, and the body of the
+  result of an HTTP request.
 */
+const processRequestResult = (error, response, body) => {
+  // If there was an error:
+  if (error) {
+    // Report it.
+    console.log('Request/response error: ' + error.message);
+  }
+  // Otherwise, if the response status is not OK:
+  else if (response && response.statusCode !== 200) {
+    // Report it.
+    console.log('Document error: ' + response.statusCode);
+  }
+  // Otherwise, i.e. if an ordinary response was received:
+  else {
+    // Process its body with getList and output the result.
+    console.log(getList(body));
+  }
+};
+
+// Identify the calling argument, if valid.
 const query = arg0IfValid();
+
+// If it is:
 if (query) {
+  // Make it the value of the “q” property of requestParams.
   requestParams['q'] = query;
+  // Identify the complete URL, including the query.
   const urlWithQuery
     = requestParams['url']
     + '?'
     + ['q', 'ref_', 's'].map(v => v + '=' + requestParams[v]).join('&');
-  hget(urlWithQuery, listReport);
+  // Make an HTTP GET request to that URL and process the result.
+  rpn(urlWithQuery, processRequestResult);
 }

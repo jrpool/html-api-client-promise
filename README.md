@@ -26,7 +26,7 @@ The application fulfills the specifications of the “Movie Search CLI with Prom
 
 The application also contains a module that strips unwanted comments from the files in a directory tree. This is the `copy-edit-files` module in the `dev` directory. It was invoked with
 
-`dev/copy-edit-files «/path-to-doc» «/path-to-new-dir» uncomment`
+`node dev/copy-edit-files «/path-to-doc» «/path-to-new-dir» uncomment`
 
 This copied the files in `doc/` to a new directory and edited them to remove comments introduced by `//` or `/*`. Comments introduced by `///` or `/**` remained. The edited files were then moved to their standard locations.
 

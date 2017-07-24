@@ -19,7 +19,7 @@
     "mocha": ">=3.4.2"
   },
   "scripts": {
-    "lint": "eslint src/ dev/ doc/ test/ ./*.js; exit 0",
+    "lint": "eslint dev/ doc/ test/ ./*.js; exit 0",
     "test": "mocha --compilers js:babel-register test/*.js"
   },
   "bugs": {

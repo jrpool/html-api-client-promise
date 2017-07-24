@@ -3,10 +3,8 @@
   matching a specified query and outputting the list.
 */
 
-const hgetModule = require('./src/hget');
+const rpn = require('request-promise-native');
 const cheerio = require('cheerio');
-
-const {chunks, hget, arg0IfValid} = hgetModule;
 
 const requestParams = {
   url: 'http://www.imdb.com/find',
@@ -16,11 +14,23 @@ const requestParams = {
 };
 
 /**
+  Define a function to return the first argument or, if the argument count
+  is not 1, the argument is not a string, or the argument is a blank string,
+  undefined.
+*/
+const arg0IfValid = () => {
+  const args = process.argv.slice(2);
+  if (args.length === 1 && typeof args[0] === 'string' && args[0].length) {
+    return args[0];
+  }
+};
+
+/**
   Define a function to extract the list of titles, years, and types from the
   HTML response of IMDB.
 */
-const getList = () => {
-  const $ = cheerio.load(chunks.join(''));
+const getList = body => {
+  const $ = cheerio.load(body);
   const listCells =
     $('a[name=tt]')
       .parent()
@@ -35,19 +45,25 @@ const getList = () => {
   return listTexts.join('\n');
 };
 
-/// Define a function to output a report of the matching motion pictures.
-const listReport = () => {console.log(getList());};
+const processRequestResult = (error, response, body) => {
+  if (error) {
+    console.log('Request/response error: ' + error.message);
+  }
+  else if (response && response.statusCode !== 200) {
+    console.log('Document error: ' + response.statusCode);
+  }
+  else {
+    console.log(getList(body));
+  }
+};
 
-/**
-  Perform a GET request to the URL specified on the command line, if valid,
-  and process its response.
-*/
 const query = arg0IfValid();
+
 if (query) {
   requestParams['q'] = query;
   const urlWithQuery
     = requestParams['url']
     + '?'
     + ['q', 'ref_', 's'].map(v => v + '=' + requestParams[v]).join('&');
-  hget(urlWithQuery, listReport);
+  rpn(urlWithQuery, processRequestResult);
 }
