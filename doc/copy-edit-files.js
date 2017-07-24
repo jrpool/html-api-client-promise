@@ -6,9 +6,6 @@ const fs = require('fs');
 // Import the `cpr` module.
 const cpr = require('cpr');
 
-// Declare a list of full absolute destination pathnames of copies of items.
-let pathList;
-
 /**
   =========
   FUNCTIONS
@@ -111,10 +108,8 @@ const treeCopy = (fromDir, toDir, nextFunction) => {
       }
       // Otherwise, i.e. if there was no error:
       else {
-        // Populate the list of pathnames.
-        pathList = destinationPaths;
-        // Execute the next function.
-        nextFunction();
+        // Execute the next function, passing to it the list of pathnames.
+        nextFunction(destinationPaths);
       }
     }
   );
@@ -227,7 +222,7 @@ if (areValid (callArgs)) {
               When the copying is complete, perform the specified editing
               on the destination files.
             */
-            () => {editFiles(pathList, editParams);}
+            pathList => {editFiles(pathList, editParams);}
           );
         }
       }

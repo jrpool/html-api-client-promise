@@ -4,7 +4,7 @@
 */
 
 // Import required modules.
-const hgetModule = require('./hget');
+const hgetModule = require('./src/hget');
 const cheerio = require('cheerio');
 
 // Identify its objects.

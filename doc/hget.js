@@ -1,10 +1,10 @@
 /**
-  HTTP Client making a GET request and outputting its response. See:
-  https://nodejs.org/dist/latest-v8.x/docs/api/http.html#http_http_request_options_callback
+  request-promise-native Client making a GET request and outputting its
+  response. See: https://github.com/request/request-promise-native
 */
 
-/// Import the `http` module.
-const http = require('http');
+/// Import the `request-promise-native` module.
+const rpn = require('request-promise-native');
 
 /// Initialize an array containing the chunks of the result.
 const chunks = [];

@@ -4,8 +4,6 @@ const fs = require('fs');
 
 const cpr = require('cpr');
 
-let pathList;
-
 /**
   =========
   FUNCTIONS
@@ -88,8 +86,7 @@ const treeCopy = (fromDir, toDir, nextFunction) => {
         reportError(err, 'treeCopy', fromDir);
       }
       else {
-        pathList = destinationPaths;
-        nextFunction();
+        nextFunction(destinationPaths);
       }
     }
   );
@@ -170,7 +167,7 @@ if (areValid (callArgs)) {
           treeCopy(
             callArgs[0],
             callArgs[1],
-            () => {editFiles(pathList, editParams);}
+            pathList => {editFiles(pathList, editParams);}
           );
         }
       }
