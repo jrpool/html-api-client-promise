@@ -57,3 +57,8 @@ typings/
 # dotenv environment variables file
 .env
 
+# OS X files
+.DS_Store
+
+# Developer notes
+private/
